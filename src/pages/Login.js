@@ -5,35 +5,39 @@ import api from '../services/api'
 
 import logo from '../assets/logo.png';
 
-export default function Login( navigation ) {
+export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [techs, setTechs] = useState('');
 
-    useEffect(() =>{
+    useEffect(() => {
         AsyncStorage.getItem('user').then(user => {
-            if (user){
+            if (user) {
                 navigation.navigate('List');
             }
         })
     }, []);
 
-    async function handlesSubmit(){
-        const response = await api.post('/sessions', { email });
-        const { _id } = response.data;
-        
-        await AsyncStorage.setItem('user', _id);
-        await AsyncStorage.setItem('techs', techs);
+    async function handlesSubmit() {
+        try { 
+            const response = await api.post('/sessions', { email })
+            const { _id } = response.data;
 
-        navigation.navigate('List');
+            await AsyncStorage.setItem('user', _id );
+            await AsyncStorage.setItem('techs', techs);
+
+            navigation.navigate('List');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
-        <KeyboardAvoidingView enabled={Platform.OS == "ios"} behavior="padding" style={styles.container}> 
-            <Image source={logo}/>
+        <KeyboardAvoidingView enabled={Platform.OS == "ios"} behavior="padding" style={styles.container}>
+            <Image source={logo} />
 
             <View style={styles.form}>
-                <Text style={styles.label}>SEU E-MAIL *</Text> 
-                <TextInput 
+                <Text style={styles.label}>SEU E-MAIL *</Text>
+                <TextInput
                     style={styles.input}
                     placeholder="Seu e-mail"
                     placeholderTextColor="#999"
@@ -44,8 +48,8 @@ export default function Login( navigation ) {
                     onChangeText={setEmail}
                 />
 
-                <Text style={styles.label}>TECNOLOGIAS *</Text> 
-                <TextInput 
+                <Text style={styles.label}>TECNOLOGIAS *</Text>
+                <TextInput
                     style={styles.input}
                     placeholder="Tecnologias de interesse"
                     placeholderTextColor="#999"
@@ -64,13 +68,13 @@ export default function Login( navigation ) {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
-    form:{
+    form: {
         alignSelf: 'stretch',
         paddingHorizontal: 30,
         marginTop: 30,
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    input:{
+    input: {
         borderWidth: 1,
         borderColor: '#ddd',
         paddingHorizontal: 20,
