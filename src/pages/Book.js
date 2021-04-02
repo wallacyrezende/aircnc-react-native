@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
     cancelButton: {
         backgroundColor: '#ccc',
-        maginTop: 10
+        marginTop: 10
     },
 
     buttonText: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage, KeyboardAvoidingView, Image, Text, TextInput, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, AsyncStorage, KeyboardAvoidingView, Image, Text, TextInput, TouchableOpacity, Platform, StyleSheet, Alert } from 'react-native';
 
 import api from '../services/api'
 
@@ -14,11 +14,18 @@ export default function Login({ navigation }) {
             if (user) {
                 navigation.navigate('List');
             }
+            
         })
     }, []);
 
     async function handlesSubmit() {
         try { 
+            if(!email){
+                return Alert.alert('Informe um e-mail para entrar.');
+            }
+            if(!techs){
+                return Alert.alert('Informe pelo menos uma technologia.');
+            }
             const response = await api.post('/sessions', { email })
             const { _id } = response.data;
 

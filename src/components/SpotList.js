@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withNavigation, NavigationActions } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import api from '../services/api';
 
@@ -22,6 +22,8 @@ function SpotList({ tech, navigation }) {
         navigation.navigate('Book', { id });
     }
 
+    
+
     return (
         <View style={styles.contianer}>
             <Text style={styles.title}>Empresas que usam <Text style={styles.bold}>{tech}</Text></Text>
@@ -33,11 +35,11 @@ function SpotList({ tech, navigation }) {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
-                    <View style={styles.listItem}> 
+                    <View style={styles.listItem}>
                         <Image style={styles.thumbnail} source={{ uri: item.thumbnail_url }} />
                         <Text style={styles.company}>{item.company}</Text>
                         <Text style={styles.price}>{item.price ? `R$${item.price}/dia` : 'GRATUITO'}</Text>
-                        <TouchableOpacity style={styles.button} onPress={ () => handleNavigate(item._id)}>
+                        <TouchableOpacity style={styles.button} onPress={() => handleNavigate(item._id)}>
                             <Text style={styles.buttonText}>Solicitar reserva</Text>
                         </TouchableOpacity>
                     </View>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
-    list:{
+    list: {
         paddingHorizontal: 20,
     },
 
